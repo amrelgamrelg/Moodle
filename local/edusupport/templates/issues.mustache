@@ -1,0 +1,349 @@
+{{!
+    This file is part of Moodle - http://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+}}
+<div class="local_edusupport issues">
+    <ul class="info">
+    {{#count}}
+    <div class="row">
+            <div class="col-md-3">
+                <h3>{{current}}</h3>
+                <p>{{#str}} issue:countcurrent, local_edusupport {{/str}} </p>
+            </div>
+            <div class="col-md-3">
+                <h3>{{assigned}}</h3>
+                <p>{{#str}} issue:countassigned, local_edusupport {{/str}}</p>
+            </div>
+            <div class="col-md-3">
+                <h3>{{other}}</h3>
+                <p>{{#str}} issue:countother, local_edusupport {{/str}}</p>
+            </div>
+            <div class="col-md-3">
+                <h3>{{closed}}</h3>
+                <p>{{#str}} issue:countclosed, local_edusupport {{/str}}</p>
+            </div>
+        </div>
+     {{/count}}
+   </ul>
+    <table class="generaltable" width="100%">
+        <thead>
+            <tr>
+                <th width="200">#</th>
+                <th>{{#str}} issue, local_edusupport {{/str}}</th>
+                <th>{{#str}} name {{/str}}</th>
+                <th>{{#str}} assigned, local_edusupport {{/str}}</th>
+                <th>{{#str}} lastpost, forum {{/str}}</th>
+                <th>{{#str}} modified {{/str}}</th>
+                <th>{{#str}} action {{/str}}</th>
+                {{#hasprio}}
+                <th>{{#str}} priority, local_edusupport {{/str}}</th>
+                {{/hasprio}}
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <th colspan="8">{{#str}} issues:current, local_edusupport {{/str}}</th>
+            </tr>
+            {{#current}}
+                <tr>
+                    <td>
+                        <a href="{{wwwroot}}/local/edusupport/issue.php?d={{discussionid}}">
+                            {{{prio}}}{{id}}
+                        </a>
+                    </td>
+                    <td>
+                        <a href="{{wwwroot}}/local/edusupport/issue.php?d={{discussionid}}">
+                            {{name}}
+                        </a>
+                    </td>
+                    <td>
+                        {{#userlinks}}
+                            <a href="{{wwwroot}}/user/view.php?id={{userid}}">
+                                {{userfullname}}
+                            </a>
+                        {{/userlinks}}
+                        {{^userlinks}}
+                            {{userfullname}}
+                        {{/userlinks}}
+                    </td>
+                    <td>
+                        {{#userlinks}}
+                            {{#currentsupporterid}}<a href="{{wwwroot}}/user/view.php?id={{currentsupporterid}}">{{/currentsupporterid}}
+                            {{currentsupportername}}
+                            {{#currentsupporterid}}</a>{{/currentsupporterid}}
+                        {{/userlinks}}
+                        {{^userlinks}}
+                            {{currentsupportername}}
+                        {{/userlinks}}
+                    </td>
+                    <td>
+                        {{#userlinks}}
+                            <a href="{{wwwroot}}/user/view.php?id={{lastpostuserid}}">
+                                {{lastpostuserfullname}}
+                            </a>
+                        {{/userlinks}}
+                        {{^userlinks}}
+                            {{lastpostuserfullname}}
+                        {{/userlinks}}
+                    </td>
+                    <td>{{#userdate}} {{lastmodified}}, %F %X {{/userdate}}</td>
+                    <td>
+                        <a class="btn btn-outline-info" href="{{wwwroot}}/local/edusupport/issues.php?asignto={{discussionid}}" onclick="require(['local_edusupport/main'], function(MAIN){ MAIN.assignSupporter({{discussionid}}); }); return false;" data-toggle="tooltip" data-placement="top" title="assign someone">
+                            {{#pix}} i/enrolusers, core {{/pix}}
+                        </a>
+                        <a class="btn btn-outline-danger" href="{{wwwroot}}/local/edusupport/issues.php?close={{discussionid}}">
+                            <i class="fa fa-window-close" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="close issue"></i>
+                        </a>
+                    </td>
+                    {{#hasprio}}
+                    <td>
+                        <a class="btn btn-outline-info {{priolow}}" href="{{wwwroot}}/local/edusupport/issues.php?prio={{discussionid}}&lvl=1" data-toggle="tooltip" data-placement="top" title="priortiy low">
+                            !
+                        </a>
+                        <a class="btn btn-outline-warning {{priomid}}" href="{{wwwroot}}/local/edusupport/issues.php?prio={{discussionid}}&lvl=2"  data-toggle="tooltip" data-placement="top" title="priortiy mid">
+                            !!
+                        </a>
+                        <a class="btn btn-outline-danger {{priohigh}}" href="{{wwwroot}}/local/edusupport/issues.php?prio={{discussionid}}&lvl=3"  data-toggle="tooltip" data-placement="top" title="priortiy high">
+                            !!!
+                        </a>
+                    </td>
+                    {{/hasprio}}
+                </tr>
+            {{/current}}
+            {{^current}}
+            <tr>
+                <td colspan="8">{{#str}} issues:current:none, local_edusupport {{/str}}</td>
+            </tr>
+            {{/current}}
+            <tr>
+                <th colspan="8">{{#str}} issues:assigned, local_edusupport {{/str}}</th>
+            </tr>
+            {{#assigned}}
+                <tr>
+                    <td>
+                        {{{prio}}}
+                        <a href="{{wwwroot}}/local/edusupport/issue.php?d={{discussionid}}">
+                            {{id}}
+                        </a>
+                    </td>
+                    <td>
+                        <a href="{{wwwroot}}/local/edusupport/issue.php?d={{discussionid}}">
+                            {{name}}
+                        </a>
+                    </td>
+                    <td>
+                        {{#userlinks}}
+                            <a href="{{wwwroot}}/user/view.php?id={{userid}}">
+                                {{userfullname}}
+                            </a>
+                        {{/userlinks}}
+                        {{^userlinks}}
+                            {{userfullname}}
+                        {{/userlinks}}
+                    </td>
+                    <td>
+                        {{#userlinks}}
+                            {{#currentsupporterid}}<a href="{{wwwroot}}/user/view.php?id={{currentsupporterid}}">{{/currentsupporterid}}
+                            {{currentsupportername}}
+                            {{#currentsupporterid}}</a>{{/currentsupporterid}}
+                        {{/userlinks}}
+                        {{^userlinks}}
+                            {{currentsupportername}}
+                        {{/userlinks}}
+                    </td>
+                    <td>
+                        {{#userlinks}}
+                            <a href="{{wwwroot}}/user/view.php?id={{lastpostuserid}}">
+                                {{lastpostuserfullname}}
+                            </a>
+                        {{/userlinks}}
+                        {{^userlinks}}
+                                {{lastpostuserfullname}}
+                        {{/userlinks}}
+                    </td>
+                    <td>{{#userdate}} {{lastmodified}}, %F %X {{/userdate}}</td>
+                    <td>
+                        <a class="btn btn-outline-secondary" href="{{wwwroot}}/local/edusupport/issues.php?unassign={{discussionid}}" data-toggle="tooltip" data-placement="top" title="unsubscribe">
+                            {{#pix}} i/show, core {{/pix}}
+                        </a>
+                        <a class="btn btn-outline-info" href="{{wwwroot}}/local/edusupport/issues.php?take={{discussionid}}" data-toggle="tooltip" data-placement="top" title="assign myself">
+                            <i class="fa fa-plus" aria-hidden="true"></i>
+                        </a>
+                        <a class="btn btn-outline-info" href="{{wwwroot}}/local/edusupport/issues.php?asignto={{discussionid}}" onclick="require(['local_edusupport/main'], function(MAIN){ MAIN.assignSupporter({{discussionid}}); }); return false;" data-toggle="tooltip" data-placement="top" title="assign someone">
+                            {{#pix}} i/enrolusers, core {{/pix}}
+                        </a>
+                        <a class="btn btn-outline-danger" href="{{wwwroot}}/local/edusupport/issues.php?close={{discussionid}}" data-toggle="tooltip" data-placement="top" title="close issue">
+                            <i class="fa fa-window-close" aria-hidden="true"></i>
+                        </a>
+                    </td>
+                    {{#hasprio}}
+                    <td>
+                        <a class="btn btn-outline-primary  {{priolow}}" href="{{wwwroot}}/local/edusupport/issues.php?prio={{discussionid}}&lvl=1" data-toggle="tooltip" data-placement="top" title="priortiy low">
+                        !
+                        </a>
+                        <a class="btn btn-outline-warning {{priomid}}" href="{{wwwroot}}/local/edusupport/issues.php?prio={{discussionid}}&lvl=2"  data-toggle="tooltip" data-placement="top" title="priortiy mid">
+                        !!
+                        </a>
+                        <a class="btn btn-outline-danger {{priohigh}}" href="{{wwwroot}}/local/edusupport/issues.php?prio={{discussionid}}&lvl=3"  data-toggle="tooltip" data-placement="top" title="priortiy high">
+                        !!!
+                        </a>
+                    </td>
+                    {{/hasprio}}
+                </tr>
+            {{/assigned}}
+            {{^assigned}}
+            <tr>
+                <td colspan="8">{{#str}} issues:assigned:none, local_edusupport {{/str}}</td>
+            </tr>
+            {{/assigned}}
+            <tr>
+                <th colspan="8">{{#str}} issues:other, local_edusupport {{/str}}</th>
+            </tr>
+            {{#other}}
+                <tr>
+                    <td>
+                         {{{prio}}}
+                        <a href="{{wwwroot}}/local/edusupport/issue.php?d={{discussionid}}">
+                            {{id}}
+                        </a>
+                    </td>
+                    <td>
+                        <a href="{{wwwroot}}/local/edusupport/issue.php?d={{discussionid}}">
+                            {{name}}
+                        </a>
+                    </td>
+                    <td>
+                        {{#userlinks}}
+                            <a href="{{wwwroot}}/user/view.php?id={{userid}}">
+                                {{userfullname}}
+                            </a>
+                        {{/userlinks}}
+                        {{^userlinks}}
+                            {{userfullname}}
+                        {{/userlinks}}
+                    </td>
+                    <td>
+                        {{#userlinks}}
+                            {{#currentsupporterid}}<a href="{{wwwroot}}/user/view.php?id={{currentsupporterid}}">{{/currentsupporterid}}
+                            {{currentsupportername}}
+                            {{#currentsupporterid}}</a>{{/currentsupporterid}}
+                        {{/userlinks}}
+                        {{^userlinks}}
+                            {{currentsupportername}}
+                        {{/userlinks}}
+                    </td>
+                    <td>
+                        {{#userlinks}}
+                            <a href="{{wwwroot}}/user/view.php?id={{lastpostuserid}}">
+                                {{lastpostuserfullname}}
+                            </a>
+                        {{/userlinks}}
+                        {{^userlinks}}
+                                {{lastpostuserfullname}}
+                        {{/userlinks}}
+                    </td>
+                    <td>{{#userdate}} {{lastmodified}}, %F %X {{/userdate}}</td>
+                    <td>
+                        <a class="btn btn-outline-secondary" href="{{wwwroot}}/local/edusupport/issues.php?assign={{discussionid}}" data-toggle="tooltip" data-placement="top" title="watch">
+                            {{#pix}} i/hide, core {{/pix}}
+                        </a>
+                        <a class="btn btn-outline-secondary" href="{{wwwroot}}/local/edusupport/issues.php?take={{discussionid}}" data-toggle="tooltip" data-placement="top" title="assign myself">
+                            <i class="fa fa-plus" aria-hidden="true"></i>
+                        </a>
+                        <a class="btn btn-outline-info" href="{{wwwroot}}/local/edusupport/issues.php?asignto={{discussionid}}" onclick="require(['local_edusupport/main'], function(MAIN){ MAIN.assignSupporter({{discussionid}}); }); return false;" data-toggle="tooltip" data-placement="top" title="assign someone">
+                            {{#pix}} i/enrolusers, core {{/pix}}
+                        </a>
+                        <a class="btn btn-outline-danger" href="{{wwwroot}}/local/edusupport/issues.php?close={{discussionid}}" data-toggle="tooltip" data-placement="top" title="close issue">
+                            <i class="fa fa-window-close" aria-hidden="true"></i>
+                        </a>
+                    </td>
+                    {{#hasprio}}
+                    <td>
+                        <a class="btn btn-outline-primary {{priolow}}"  href="{{wwwroot}}/local/edusupport/issues.php?prio={{discussionid}}&lvl=1"  data-toggle="tooltip" data-placement="top" title="priortiy low">
+                            !
+                        </a>
+                        <a class="btn btn-outline-warning {{priomid}}" href="{{wwwroot}}/local/edusupport/issues.php?prio={{discussionid}}&lvl=2"  data-toggle="tooltip" data-placement="top" title="priortiy mid">
+                            !!
+                        </a>
+                        <a class="btn btn-outline-danger {{priohigh}}" href="{{wwwroot}}/local/edusupport/issues.php?prio={{discussionid}}&lvl=3"  data-toggle="tooltip" data-placement="top" title="priortiy high">
+                            !!!
+                        </a>
+                    </td>
+                    {{/hasprio}}
+                </tr>
+            {{/other}}<tr class="accordion-toggle collapsed" id="accordion1" data-toggle="collapse" data-parent="#accordion1" href="#collapseOne" aria-expanded="false">
+            <tr>
+                <th colspan="8">{{#str}} issues:closed, local_edusupport {{/str}}</th>
+            </tr>
+            {{#closed}}
+                <tr>
+                    <td>
+                        <a href="{{wwwroot}}/local/edusupport/issue.php?d={{discussionid}}">
+                            {{id}}
+                        </a>
+                    </td>
+                    <td>
+                        <a href="{{wwwroot}}/local/edusupport/issue.php?d={{discussionid}}">
+                            {{name}}
+                        </a>
+                    </td>
+                    <td>
+                        {{#userlinks}}
+                            <a href="{{wwwroot}}/user/view.php?id={{userid}}">
+                                {{userfullname}}
+                            </a>
+                        {{/userlinks}}
+                        {{^userlinks}}
+                            {{userfullname}}
+                        {{/userlinks}}
+                    </td>
+                    <td>
+                        {{#userlinks}}
+                            {{#currentsupporterid}}<a href="{{wwwroot}}/user/view.php?id={{currentsupporterid}}">{{/currentsupporterid}}
+                            {{currentsupportername}}
+                            {{#currentsupporterid}}</a>{{/currentsupporterid}}
+                        {{/userlinks}}
+                        {{^userlinks}}
+                            {{currentsupportername}}
+                        {{/userlinks}}
+
+                    </td>
+                    <td>
+                        {{#userlinks}}
+                            <a href="{{wwwroot}}/user/view.php?id={{lastpostuserid}}">
+                                {{lastpostuserfullname}}
+                            </a>
+                        {{/userlinks}}
+                        {{^userlinks}}
+                                {{lastpostuserfullname}}
+                        {{/userlinks}}
+                    </td>
+                    <td>{{#userdate}} {{lastmodified}}, %F %X {{/userdate}}</td>
+                    <td>
+                        <a class="btn btn-outline-success" href="{{wwwroot}}/local/edusupport/issues.php?reopen={{discussionid}}" data-toggle="tooltip" data-placement="top" title="reopen">
+                            <i class="fa fa-refresh" aria-hidden="true"></i>
+                        </a>
+                    </td>
+                    {{#hasprio}}
+                    <td>
+                    </td>
+                    {{/hasprio}}
+                </tr>
+            {{/closed}}
+
+
+        </tbody>
+    </table>
+</div>
